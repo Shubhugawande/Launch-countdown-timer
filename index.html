@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+  <title>Frontend Mentor | Launch countdown timer</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Text:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+:root {
+  --lavender-300: hsl(237, 18%, 59%);
+  --pink-100: hsl(345, 95%, 68%);
+  --white: hsl(0, 0%, 100%);
+  --slate-700: hsl(236, 21%, 26%);
+  --slate-750: hsl(236, 21%, 21%);
+  --slate-800: hsl(235, 16%, 14%);
+  --slate-900: hsl(234, 17%, 12%);
+
+  --card-width: 70px;
+  --card-height: 66px;
+  --card-radius: 4px;
+  --card-shadow: 5px;
+  --notch-size: 6px;
+  --digit-size: 2.25rem;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 14px;
+}
+
+body {
+  min-height: 100vh;
+  font-family: 'Red Hat Text', sans-serif;
+  font-weight: 700;
+  color: var(--white);
+  background-color: var(--slate-800);
+  background-image:
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20width%3D%221440%22%20height%3D%22197%22%3E%3Cdefs%3E%3Cpath%20id%3D%22a%22%20d%3D%22M0%200h1440v197H0z%22%2F%3E%3C%2Fdefs%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cmask%20id%3D%22b%22%20fill%3D%22%23fff%22%3E%3Cuse%20xlink%3Ahref%3D%22%23a%22%2F%3E%3C%2Fmask%3E%3Cg%20mask%3D%22url%28%23b%29%22%3E%3Cpath%20fill%3D%22%23211A29%22%20d%3D%22M1440%2050.205L1088.504%200%20949.669%2050.205%20878%2025.102%20556%200%20398.525%2050.205l-95.807-25.103-51.328%2016.761L45.704%200%200%2017.701V160h1440z%22%2F%3E%3Cpath%20fill%3D%22%231A1823%22%20d%3D%22M1394.296%201l94.649%2069.336%2050.047-49.449zM1137.282%2042.576l51.328%2027.76%2080.6-5.426zM884%201l157.475%2083.151%2080.929-26.062zM351.496%201l138.835%2083.151%2049.321-28.526z%22%2F%3E%3Cpath%20fill%3D%22%232F2439%22%20d%3D%22M0%2084.151L351.496%201l138.835%2083.151L562%2042.576%20884%201l157.475%2083.151%2095.807-41.575%2051.328%2027.76L1394.296%201%201440%2030.317V266H0z%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"),
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%221440%22%20height%3D%22569%22%3E%3Cpath%20fill%3D%22%2346485B%22%20fill-rule%3D%22evenodd%22%20d%3D%22M774%20563a3%203%200%20110%206%203%203%200%20010-6zm-623.5-5a1.5%201.5%200%20110%203%201.5%201.5%200%20010-3zm875%200a1.5%201.5%200%20110%203%201.5%201.5%200%20010-3zm-523-3a1.5%201.5%200%20110%203%201.5%201.5%200%20010-3zm233-7a1.5%201.5%200%20110%203%201.5%201.5%200%20010-3zM178%20542a3%203%200%20110%206%203%203%200%20010-6zm1127.5%202a1.5%201.5%200%20110%203%201.5%201.5%200%20010-3zm45.5-10a3%203%200%20110%206%203%203%200%20010-6zm-565.5-3a1.5%201.5%200%20110%203%201.5%201.5%200%20010-3zm-784-15a1.5%201.5%200%20110%203%201.5%201.5%200%20010-3zm278.5-9a3%203%200%20110%206%203%203%200%20010-6zm207.5-30a1.5%201.5%200%20110%203%201.5%201.5%200%20010-3zm50-17a1.5%201.5%200%20110%203%201.5%201.5%200%20010-3zm233-8a1.5%201.5%200%20110%203%201.5%201.5%200%20010-3zm465-22a1.5%201.5%200%20110%203%201.5%201.5%200%20010-3zm-699-6a1.5%201.5%200%20110%203%201.5%201.5%200%20010-3zm-465-22a1.5%201.5%200%20110%203%201.5%201.5%200%20010-3zm1165-8a1.5%201.5%200%20110%203%201.5%201.5%200%20010-3zm-50-17a1.5%201.5%200%20110%203%201.5%201.5%200%20010-3zM250%20345a3%203%200%20110%206%203%203%200%20010-6zm450.5-7a1.5%201.5%200%20110%203%201.5%201.5%200%20010-3zm-614-15a1.5%201.5%200%20110%203%201.5%201.5%200%20010-3zm520-13a1.5%201.5%200%20110%203%201.5%201.5%200%20010-3zm-570-4a1.5%201.5%200%20110%203%201.5%201.5%200%20010-3zm1169.5-7a3%203%200%20110%206%203%203%200%20010-6zm-4.5%200a1.5%201.5%200%20110%203%201.5%201.5%200%20010-3zm-875-3a1.5%201.5%200%20110%203%201.5%201.5%200%20010-3zm523%200a1.5%201.5%200%20110%203%201.5%201.5%200%20010-3zm-392-34a1.5%201.5%200%20110%203%201.5%201.5%200%20010-3zm656%200a1.5%201.5%200%20110%203%201.5%201.5%200%20010-3zm-1008-3a1.5%201.5%200%20110%203%201.5%201.5%200%20010-3zm1298-7a1.5%201.5%200%20110%203%201.5%201.5%200%20010-3zm-570-4a1.5%201.5%200%20110%203%201.5%201.5%200%20010-3zm520-13a1.5%201.5%200%20110%203%201.5%201.5%200%20010-3zm-145.5-9a3%203%200%20110%206%203%203%200%20010-6zm-601.5-6a1.5%201.5%200%20110%203%201.5%201.5%200%20010-3zm499.5-29a3%203%200%20110%206%203%203%200%20010-6zm-985.5-10a1.5%201.5%200%20110%203%201.5%201.5%200%20010-3zm-50-17a1.5%201.5%200%20110%203%201.5%201.5%200%20010-3zm1298-8a1.5%201.5%200%20110%203%201.5%201.5%200%20010-3zm-465-22a1.5%201.5%200%20110%203%201.5%201.5%200%20010-3zm-832-6a1.5%201.5%200%20110%203%201.5%201.5%200%20010-3zm33.5-18a3%203%200%20110%206%203%203%200%20010-6zm431.5-4a1.5%201.5%200%20110%203%201.5%201.5%200%20010-3zm366-8a1.5%201.5%200%20110%203%201.5%201.5%200%20010-3zm50-17a1.5%201.5%200%20110%203%201.5%201.5%200%20010-3zm486-39a1.5%201.5%200%20110%203%201.5%201.5%200%20010-3zM1136%2029a3%203%200%20110%206%203%203%200%20010-6zm-614.5-2a1.5%201.5%200%20110%203%201.5%201.5%200%20010-3zM412%2023a3%203%200%20110%206%203%203%200%20010-6zM1.5%2014a1.5%201.5%200%20110%203%201.5%201.5%200%20010-3zm570-4a1.5%201.5%200%20110%203%201.5%201.5%200%20010-3zm366-7a1.5%201.5%200%20110%203%201.5%201.5%200%20010-3zm-656-3a1.5%201.5%200%20110%203%201.5%201.5%200%20010-3zm1008%200a1.5%201.5%200%20110%203%201.5%201.5%200%20010-3z%22%2F%3E%3C%2Fsvg%3E"),
+    linear-gradient(180deg, hsl(235, 16%, 14%) 0%, hsl(245, 18%, 16%) 70%, hsl(265, 22%, 18%) 100%);
+  background-repeat: no-repeat, repeat, no-repeat;
+  background-position: right -160px bottom 0, top center, center;
+  background-size: auto 168px, auto, cover;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  overflow-x: hidden;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.container {
+  flex: 1;
+  width: 100%;
+  max-width: 688px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 5rem;
+}
+
+.heading {
+  font-size: 1.285rem;
+  line-height: 1.4;
+  letter-spacing: 0.33em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--white);
+  margin-bottom: 3.8rem;
+  max-width: 100%;
+}
+
+.countdown {
+  display: grid;
+  grid-template-columns: repeat(4, var(--card-width));
+  gap: 1.15rem;
+  justify-content: center;
+}
+
+.countdown-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.flip-card {
+  position: relative;
+  width: var(--card-width);
+  height: var(--card-height);
+  border-radius: var(--card-radius);
+  box-shadow: 0 var(--card-shadow) 0 0 var(--slate-900);
+  perspective: 450px;
+  user-select: none;
+}
+
+/* Side notches at vertical midpoint */
+.flip-card::before,
+.flip-card::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: var(--notch-size);
+  height: calc(var(--notch-size) * 2);
+  background-color: var(--slate-900);
+  transform: translateY(-50%);
+  z-index: 10;
+}
+
+.flip-card::before {
+  left: 0;
+  border-top-right-radius: var(--notch-size);
+  border-bottom-right-radius: var(--notch-size);
+}
+
+.flip-card::after {
+  right: 0;
+  border-top-left-radius: var(--notch-size);
+  border-bottom-left-radius: var(--notch-size);
+}
+
+.card-half {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.card-half span {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: var(--card-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--digit-size);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--pink-100);
+}
+
+.card-half.top,
+.card-half.flip-top {
+  top: 0;
+  background-color: var(--slate-750);
+  border-top-left-radius: var(--card-radius);
+  border-top-right-radius: var(--card-radius);
+  border-bottom: 1px solid hsla(234, 17%, 12%, 0.45);
+}
+
+.card-half.top span,
+.card-half.flip-top span {
+  top: 0;
+  filter: brightness(0.92);
+}
+
+.card-half.bottom,
+.card-half.flip-bottom {
+  bottom: 0;
+  background-color: var(--slate-700);
+  border-bottom-left-radius: var(--card-radius);
+  border-bottom-right-radius: var(--card-radius);
+}
+
+.card-half.bottom span,
+.card-half.flip-bottom span {
+  bottom: 0;
+}
+
+/* 3D Flip overlays */
+.card-half.flip-top {
+  transform-origin: bottom center;
+  z-index: 4;
+  animation: flip-top 280ms ease-in forwards;
+}
+
+.card-half.flip-bottom {
+  transform-origin: top center;
+  transform: rotateX(90deg);
+  z-index: 5;
+  animation: flip-bottom 280ms ease-out 280ms forwards;
+}
+
+@keyframes flip-top {
+  0% {
+    transform: rotateX(0deg);
+  }
+  100% {
+    transform: rotateX(-90deg);
+  }
+}
+
+@keyframes flip-bottom {
+  0% {
+    transform: rotateX(90deg);
+  }
+  100% {
+    transform: rotateX(0deg);
+  }
+}
+
+.unit-label {
+  margin-top: 1.05rem;
+  font-size: 0.5rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--lavender-300);
+  text-align: center;
+  padding-left: 0.4em;
+}
+
+/* Footer & Social Icons */
+.site-footer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 1.25rem;
+  gap: 1.5rem;
+}
+
+.social-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2.25rem;
+  margin-bottom: 1.2rem;
+}
+
+.social-link {
+  color: var(--lavender-300);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 180ms ease, transform 180ms ease;
+  border-radius: 4px;
+}
+
+.social-link:hover {
+  color: var(--pink-100);
+}
+
+.social-link:focus-visible {
+  color: var(--pink-100);
+  outline: 2px solid var(--pink-100);
+  outline-offset: 4px;
+}
+
+.attribution {
+  font-size: 0.785rem;
+  text-align: center;
+  color: var(--lavender-300);
+  opacity: 0.75;
+}
+
+.attribution a {
+  color: var(--lavender-300);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 180ms ease;
+}
+
+.attribution a:hover,
+.attribution a:focus-visible {
+  color: var(--pink-100);
+}
+
+/* Desktop Breakpoint */
+@media (min-width: 768px) {
+  :root {
+    --card-width: 148px;
+    --card-height: 140px;
+    --card-radius: 8px;
+    --card-shadow: 10px;
+    --notch-size: 8px;
+    --digit-size: 5.714rem;
+  }
+
+  body {
+    background-position: bottom center, top center, center;
+    background-size: 100% 197px, auto, cover;
+  }
+
+  .container {
+    padding-bottom: 6.5rem;
+  }
+
+  .heading {
+    font-size: 1.57rem;
+    letter-spacing: 0.33em;
+    max-width: none;
+    margin-bottom: 7.4rem;
+  }
+
+  .countdown {
+    gap: 2.285rem;
+  }
+
+  .unit-label {
+    margin-top: 1.85rem;
+    font-size: 1rem;
+    letter-spacing: 0.42em;
+    padding-left: 0.42em;
+  }
+
+  .site-footer {
+    padding-bottom: 1.5rem;
+    gap: 2rem;
+  }
+
+  .social-links {
+    margin-bottom: 1.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-half.flip-top,
+  .card-half.flip-bottom {
+    animation-duration: 0.01ms;
+    animation-delay: 0ms;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <main class="container">
+    <h1 class="heading">We're launching soon</h1>
+
+    <section class="countdown" aria-label="Launch countdown timer" aria-live="off">
+      <div class="countdown-item" data-unit="days">
+        <div class="flip-card">
+          <div class="card-half top" aria-hidden="true"><span>14</span></div>
+          <div class="card-half bottom" aria-hidden="true"><span>14</span></div>
+          <span class="sr-only" data-sr-value>14</span>
+        </div>
+        <p class="unit-label">Days</p>
+      </div>
+
+      <div class="countdown-item" data-unit="hours">
+        <div class="flip-card">
+          <div class="card-half top" aria-hidden="true"><span>00</span></div>
+          <div class="card-half bottom" aria-hidden="true"><span>00</span></div>
+          <span class="sr-only" data-sr-value>00</span>
+        </div>
+        <p class="unit-label">Hours</p>
+      </div>
+
+      <div class="countdown-item" data-unit="minutes">
+        <div class="flip-card">
+          <div class="card-half top" aria-hidden="true"><span>00</span></div>
+          <div class="card-half bottom" aria-hidden="true"><span>00</span></div>
+          <span class="sr-only" data-sr-value>00</span>
+        </div>
+        <p class="unit-label">Minutes</p>
+      </div>
+
+      <div class="countdown-item" data-unit="seconds">
+        <div class="flip-card">
+          <div class="card-half top" aria-hidden="true"><span>00</span></div>
+          <div class="card-half bottom" aria-hidden="true"><span>00</span></div>
+          <span class="sr-only" data-sr-value>00</span>
+        </div>
+        <p class="unit-label">Seconds</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <nav class="social-links" aria-label="Social media">
+      <a href="#facebook" class="social-link" aria-label="Facebook">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+          <path fill="currentColor" d="M22.675 0H1.325C.593 0 0 .593 0 1.325v21.351C0 23.407.593 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116c.73 0 1.323-.593 1.323-1.325V1.325C24 .593 23.407 0 22.675 0z"/>
+        </svg>
+      </a>
+      <a href="#pinterest" class="social-link" aria-label="Pinterest">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+          <path fill="currentColor" d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738a.36.36 0 01.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146C9.57 23.812 10.763 24 12 24c6.627 0 12-5.373 12-12 0-6.628-5.373-12-12-12z"/>
+        </svg>
+      </a>
+      <a href="#instagram" class="social-link" aria-label="Instagram">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+          <path fill="currentColor" d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+        </svg>
+      </a>
+    </nav>
+
+    <p class="attribution">
+      Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank" rel="noopener noreferrer">Frontend Mentor</a>.
+      Coded by <a href="#">Your Name Here</a>.
+    </p>
+  </footer>
+  <script>
+const INITIAL_DAYS = 14;
+const MS_PER_SECOND = 1000;
+const MS_PER_MINUTE = MS_PER_SECOND * 60;
+const MS_PER_HOUR = MS_PER_MINUTE * 60;
+const MS_PER_DAY = MS_PER_HOUR * 24;
+
+const targetTimestamp = Date.now() + INITIAL_DAYS * MS_PER_DAY;
+
+const unitElements = {
+  days: document.querySelector('[data-unit="days"] .flip-card'),
+  hours: document.querySelector('[data-unit="hours"] .flip-card'),
+  minutes: document.querySelector('[data-unit="minutes"] .flip-card'),
+  seconds: document.querySelector('[data-unit="seconds"] .flip-card'),
+};
+
+const currentValues = {
+  days: null,
+  hours: null,
+  minutes: null,
+  seconds: null,
+};
+
+function formatTwoDigits(value) {
+  return String(value).padStart(2, '0');
+}
+
+function setCardInstant(card, formattedValue) {
+  const topSpan = card.querySelector('.top span');
+  const bottomSpan = card.querySelector('.bottom span');
+  const srValue = card.querySelector('[data-sr-value]');
+
+  topSpan.textContent = formattedValue;
+  bottomSpan.textContent = formattedValue;
+  if (srValue) {
+    srValue.textContent = formattedValue;
+  }
+}
+
+function flipCard(card, previousValue, nextValue) {
+  const staticTop = card.querySelector('.top span');
+  const staticBottom = card.querySelector('.bottom span');
+  const srValue = card.querySelector('[data-sr-value]');
+
+  // Remove any leftover flip overlays from a previous tick
+  card.querySelectorAll('.flip-top, .flip-bottom').forEach((el) => el.remove());
+
+  const flipTop = document.createElement('div');
+  flipTop.className = 'card-half flip-top';
+  flipTop.setAttribute('aria-hidden', 'true');
+  flipTop.innerHTML = `<span>${previousValue}</span>`;
+
+  const flipBottom = document.createElement('div');
+  flipBottom.className = 'card-half flip-bottom';
+  flipBottom.setAttribute('aria-hidden', 'true');
+  flipBottom.innerHTML = `<span>${nextValue}</span>`;
+
+  // Static top immediately reveals the upcoming number behind the folding top flap
+  staticTop.textContent = nextValue;
+  // Static bottom holds the old number until the new bottom flap lands
+  staticBottom.textContent = previousValue;
+
+  if (srValue) {
+    srValue.textContent = nextValue;
+  }
+
+  flipTop.addEventListener('animationend', () => {
+    flipTop.remove();
+  }, { once: true });
+
+  flipBottom.addEventListener('animationend', () => {
+    staticBottom.textContent = nextValue;
+    flipBottom.remove();
+  }, { once: true });
+
+  card.append(flipTop, flipBottom);
+}
+
+function updateCountdown() {
+  const remainingMs = Math.max(0, targetTimestamp - Date.now());
+  const totalSeconds = Math.ceil(remainingMs / MS_PER_SECOND);
+
+  const days = Math.floor(totalSeconds / 86400);
+  const hours = Math.floor((totalSeconds % 86400) / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  const nextValues = {
+    days: formatTwoDigits(days),
+    hours: formatTwoDigits(hours),
+    minutes: formatTwoDigits(minutes),
+    seconds: formatTwoDigits(seconds),
+  };
+
+  Object.entries(nextValues).forEach(([unit, nextVal]) => {
+    const card = unitElements[unit];
+    if (!card) return;
+
+    const prevVal = currentValues[unit];
+    if (prevVal === null) {
+      setCardInstant(card, nextVal);
+    } else if (prevVal !== nextVal) {
+      flipCard(card, prevVal, nextVal);
+    }
+
+    currentValues[unit] = nextVal;
+  });
+
+  if (totalSeconds === 0) {
+    clearInterval(timerId);
+  }
+}
+
+updateCountdown();
+const timerId = setInterval(updateCountdown, 1000);
+
+  </script>
+</body>
+</html>
